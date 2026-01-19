@@ -8,6 +8,7 @@ from openai import OpenAI
 # Load environment variables from .env file, overriding existing ones
 load_dotenv(override=True) 
 
+# To get the OpenAI API key navigate to `https://platform.openai.com/signup`
 openai_api_key = os.getenv('OPENAI_API_KEY')
 
 if openai_api_key:
@@ -15,6 +16,8 @@ if openai_api_key:
 else:
     print("OpenAI API Key not set")
 
+
+## Agentic Frameowrk : Prompt Chaining - Output from 1 LLM is passed as input to another LLM
 openai = OpenAI()
 
 question1 = "Can you pick a business area worth exploring for Agentic AI opprtunity?This should be just one phrase with one business area"
@@ -25,6 +28,7 @@ response1 = openai.chat.completions.create(
     messages=business_idea
 )
 
+# response1.choices[0].message.content : 0 because the api sometimes can provide more than one response
 question2 = f"what is the pain point in {response1.choices[0].message.content}?provide something challenging ripe for an agentic solution?should be points  just a statement"
 business_pain_point = [{'role':'user','content':question2}]
 

@@ -15,6 +15,7 @@ gemini = OpenAI(
     base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
 )
 
+## Structured output format : Forcing the LLM to respond in a particular format
 class Evaluation(BaseModel):
     is_acceptable: bool
     feedback: str
@@ -58,6 +59,13 @@ def evaluator_user_prompt(reply, message, history):
     user_prompt += "Please evaluate the response, replying with whether it is acceptable and your feedback."
     return user_prompt
 
+""" Here if we can observe, 
+gemini.beta.chat.completions.parse
+        (model="gemini-2.0-flash", messages=messages, response_format=Evaluation)
+We are parsing response to a particular output format
+
+response.choices[0].message.parsed : used to obtain parsed response
+"""
 def evaluate(reply, message, history) -> Evaluation:
     messages = [{"role": "system", "content": evaluator_system_prompt}] + [{"role": "user", "content": evaluator_user_prompt(reply, message, history)}]
     response = gemini.beta.chat.completions.parse(model="gemini-2.0-flash", messages=messages, response_format=Evaluation)
@@ -77,7 +85,7 @@ def rerun(reply, message, history, feedback):
     response = openai.chat.completions.create(model="gpt-4o-mini", messages=messages)
     return response.choices[0].message.content
 
-
+## History is a list of LLM and user messages : [{},{},{}] returned by Gradio App
 def chat(message, history):
     if "patent" in message:
         system = system_prompt + "\n\nEverything in your reply needs to be in pig latin - \

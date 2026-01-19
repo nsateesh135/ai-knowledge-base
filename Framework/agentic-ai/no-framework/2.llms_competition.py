@@ -5,6 +5,11 @@ from openai import OpenAI
 from anthropic import Anthropic 
 from IPython.display import Markdown, display
 
+"""
+IPython.display: module that provides a set of functions to display rich output in Ipython environment.
+display: primary function used to render rich output in Ipython environment. When object like markdown is passed to display, it is rendered as markdown.
+Markdown: class from IPython.display module that is used to render markdown text in Ipython environment.
+"""
 
 load_dotenv(override=True)
 
@@ -50,6 +55,7 @@ response = openai.chat.completions.create(
 question = response.choices[0].message.content
 print(question)
 
+## Agentic Framework : Parallelization 
 competitors = []
 answers = []
 messages = [{"role": "user", "content": question}]

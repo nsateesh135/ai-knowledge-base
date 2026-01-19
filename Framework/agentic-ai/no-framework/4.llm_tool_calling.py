@@ -29,6 +29,8 @@ def record_unknown_question(question):
     push(f"Recording {question} asked that I couldn't answer")
     return {"recorded": "ok"}
 
+# required : Mandatory required parameters
+# "additionalProperties": False : makes sure only allows defined parameters
 record_user_details_json = {
     "name": "record_user_details",
     "description": "Use this tool to record that a user is interested in being in touch and provided an email address",
